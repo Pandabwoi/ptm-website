@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PTM Token System</title>
+</head>
+<body>
+  <h2>Get Your Token</h2>
+
+  <label>Section:
+    <select id="section">
+      <option value="1A">1A</option>
+      <option value="1B">1B</option>
+      <option value="1C">1C</option>
+      <option value="1D">1D</option>
+      <option value="1E">1E</option>
+      <option value="1F">1F</option>
+      <!-- Add more sections as needed -->
+    </select>
+  </label>
+  <br><br>
+
+  <label>Student Name:
+    <input type="text" id="name" />
+  </label>
+  <br><br>
+
+  <button onclick="submitForm()">Get Token</button>
+
+  <p id="result"></p>
+
+  <script>
+    async function submitForm() {
+      const section = document.getElementById("section").value;
+      const name = document.getElementById("name").value.trim();
+
+      if (!name) {
+        alert("Please enter your name");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("section", section);
+      formData.append("name", name);
+
+      const url = "https://script.google.com/macros/s/AKfycby8ObGA7KweFtVUo7dvts7OXeUTTHMlYUBVg5OnPiKRtIr1m8eL_Oe3VXtCbeNtxe_1/exec"; // Replace with your own if needed
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          body: formData
+        });
+
+        const token = await response.text();
+        document.getElementById("result").innerText = "Your Token Number: " + token;
+
+        // Optional: redirect to feedback form
+        // window.location.href = "form.html";
+
+      } catch (err) {
+        document.getElementById("result").innerText = "Error: " + err;
+      }
+    }
+  </script>
+</body>
+</html>
