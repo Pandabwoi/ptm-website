@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PTM Token System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Welcome to Parent-Teacher Meeting</h1>
+  <p>Select your child's Grade and Section:</p>
+
+  <select id="grade">
+    <option value="">Select Grade</option>
+    <option value="1">Grade 1</option>
+    <option value="2">Grade 2</option>
+    <option value="3">Grade 3</option>
+    <option value="4">Grade 4</option>
+  </select>
+
+  <select id="section">
+    <option value="">Select Section</option>
+    <option value="A">Section A</option>
+    <option value="B">Section B</option>
+    <option value="C">Section C</option>
+    <option value="D">Section D</option>
+    <option value="E">Section E</option>
+    <option value="F">Section F</option>
+  </select>
+  <br><br>
+  <button onclick="proceed()">Continue</button>
+
+  <script>
+    function proceed() {
+      const grade = document.getElementById("grade").value;
+      const section = document.getElementById("section").value;
+
+      if (!grade || !section) {
+        alert("Please select both grade and section.");
+        return;
+      }
+
+      const fullSection = grade + section;
+      localStorage.setItem("ptm_section", fullSection);
+      window.location.href = "form.html";
+    }
+  </script>
+</body>
+</html>
