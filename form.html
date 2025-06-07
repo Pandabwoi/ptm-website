@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Get Token</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>PTM Token Generator</h1>
+  <p id="sectionLabel"></p>
+  <input id="nameInput" placeholder="Enter Student Name" />
+  <br>
+  <button onclick="getToken()">Get Token</button>
+  <h2 id="result"></h2>
+
+  <script>
+    const section = localStorage.getItem("ptm_section");
+    document.getElementById("sectionLabel").innerText = "Section: " + section;
+
+    async function getToken() {
+      const name = document.getElementById("nameInput").value.trim();
+      if (!name) {
+        alert("Enter student name");
+        return;
+      }
+
+      const response = await fetch("https://script.google.com/macros/s/AKfycbxh1DlzlU9Z5tONQHORUHOHP5W3LhhluUHAq8FiPeTe4k2K8Ux0m2I10F1ZphvGZL8S/exec", {
+        method: "POST",
+        body: new URLSearchParams({ name, section })
+      });
+
+      const token = await response.text();
+      document.getElementById("result").innerText = "Your Token Number: " + token;
+    }
+  </script>
+</body>
+</html>
