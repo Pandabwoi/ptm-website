@@ -97,9 +97,9 @@
 
       const grade = document.getElementById("grade").value;
       const section = document.getElementById("section").value;
-      const name = document.getElementById("name").value;
+      const name = document.getElementById("name").value.trim();
 
-      if (!grade || !section || !name.trim()) {
+      if (!grade || !section || !name) {
         document.getElementById("msg").textContent = "Please fill all fields.";
         return;
       }
@@ -107,7 +107,7 @@
       const formData = new FormData();
       formData.append("grade", grade);
       formData.append("section", section);
-      formData.append("name", name.trim());
+      formData.append("name", name);
 
       document.getElementById("msg").textContent = "Please wait...";
 
