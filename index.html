@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PTM Token System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background-color: #f7f7f7;
+    }
+    select, input, button {
+      font-size: 18px;
+      padding: 10px;
+      margin: 10px;
+    }
+    button {
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #result {
+      font-size: 24px;
+      margin-top: 30px;
+      color: #333;
+    }
+    #feedback {
+      margin-top: 30px;
+    }
+    #feedback a {
+      font-size: 18px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #007BFF;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    #feedback a:hover {
+      background-color: #0056b3;
+    }
+    #feedbackText {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h2>Get Your Token</h2>
+
+  <label>Grade:
+    <select id="grade">
+      <script>
+        for (let i = 1; i <= 12; i++) {
+          document.write(`<option value="${i}">${i}</option>`);
+        }
+      </script>
+    </select>
+  </label>
+  <br>
+
+  <label>Section:
+    <select id="section">
+      <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+      <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+    </select>
+  </label>
+  <br>
+
+  <label>Student Name:
+    <input type="text" id="name" placeholder="Enter student name" />
+  </label>
+  <br>
+
+  <button onclick="submitForm()">Get Token</button>
+
+  <p id="result"></p>
+  <div id="feedbackText">Kindly provide your valuable feedback after the meeting. Your input is important, so please make sure to click the link and complete the feedback form.</div>
+  <div id="feedback">
+    <a id="feedbackLink" href="https://docs.google.com/forms/d/e/1FAIpQLSdarcTYOIfnDyP-g9kUBJfirCX7B2j-d60lO6Ctc2i75KfIRg/viewform?usp=dialog" target="_blank">Submit Feedback</a>
+  </div>
+
+  <script>
+    async function submitForm() {
+      const grade = document.getElementById("grade").value;
+      const section = document.getElementById("section").value;
+      const name = document.getElementById("name").value.trim();
+
+      if (!name) {
+        alert("Please enter your name");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("grade", grade);
+      formData.append("section", section);
+      formData.append("name", name);
+
+      const url = "https://script.google.com/macros/s/REPLACE_WITH_YOUR_DEPLOYMENT_URL/exec";
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          body: formData
+        });
+
+        const token = await response.text();
+        if (token === "Token limit reached") {
+          document.getElementById("result").innerText = "Token limit of 150 reached for this class.";
+        } else {
+          document.getElementById("result").innerText = "Your Token Number: " + token;
+        }
+      } catch (err) {
+        document.getElementById("result").innerText = "Error: " + err;
+      }
+    }
+  </script>
+</body>
+</html>
