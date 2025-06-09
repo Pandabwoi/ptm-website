@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PTM Token Generator</title>
+    <style>
+      body {
+        background-color: #000;
+        color: #0f0;
+        font-family: 'Segoe UI', sans-serif;
+        padding: 20px;
+      }
+      h2 {
+        color: #0ff;
+      }
+      label {
+        display: block;
+        margin-top: 15px;
+      }
+      select, input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        font-size: 16px;
+      }
+      button {
+        background-color: #00ffcc;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #msg {
+        margin-top: 20px;
+        font-weight: bold;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>🎫 PTM TOKEN MATRIX</h2>
+
+    <form id="ptmForm">
+      <label for="grade">Grade:</label>
+      <select id="grade" name="grade" required>
+        <option value="">-- Select Grade --</option>
+        ${[...Array(12)].map((_, i) => `<option value="${i + 1}">Grade ${i + 1}</option>`).join('')}
+      </select>
+
+      <label for="section">Section:</label>
+      <select id="section" name="section" required>
+        <option value="">-- Select Section --</option>
+        ${["A", "B", "C", "D", "E", "F"].map(s => `<option value="${s}">${s}</option>`).join('')}
+      </select>
+
+      <label for="name">Student Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter Student Name" required />
+
+      <button type="submit">Generate Token</button>
+    </form>
+
+    <div id="msg"></div>
+
+    <script>
+      document.getElementById("ptmForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const grade = document.getElementById("grade").value;
+        const section = document.getElementById("section").value;
+        const name = document.getElementById("name").value;
+
+        const formData = new FormData();
+        formData.append("grade", grade);
+        formData.append("section", section);
+        formData.append("name", name);
+
+        document.getElementById("msg").innerText = "⏳ Generating your token...";
+
+        fetch("https://script.google.com/macros/s/AKfycbwZW_N1lcyphhvnxHucU5WkFgupD29CRKFWOKfRTV4/dev", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("msg").innerText = "✅ " + data;
+        })
+        .catch(error => {
+          document.getElementById("msg").innerText = "❌ Error: " + error;
+        });
+      });
+    </script>
+  </body>
+</html>
