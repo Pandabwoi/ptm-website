@@ -1,94 +1,129 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>PTM Token Generator</title>
-    <style>
-      body {
-        background-color: #000;
-        color: #0f0;
-        font-family: 'Segoe UI', sans-serif;
-        padding: 20px;
+<head>
+  <title>PTM Token Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #msg {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>PTM Token Generator</h2>
+
+  <form id="ptmForm">
+    <label for="grade">Grade:</label>
+    <select id="grade" name="grade" required>
+      <option value="">Select Grade</option>
+      <option value="1">Grade 1</option>
+      <option value="2">Grade 2</option>
+      <option value="3">Grade 3</option>
+      <option value="4">Grade 4</option>
+      <option value="5">Grade 5</option>
+      <option value="6">Grade 6</option>
+      <option value="7">Grade 7</option>
+      <option value="8">Grade 8</option>
+      <option value="9">Grade 9</option>
+      <option value="10">Grade 10</option>
+      <option value="11">Grade 11</option>
+      <option value="12">Grade 12</option>
+    </select>
+
+    <label for="section">Section:</label>
+    <select id="section" name="section" required>
+      <option value="">Select Section</option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <option value="D">D</option>
+      <option value="E">E</option>
+      <option value="F">F</option>
+    </select>
+
+    <label for="name">Student Name:</label>
+    <input type="text" id="name" name="name" placeholder="Enter Student Name" required />
+
+    <button type="submit">Generate Token</button>
+  </form>
+
+  <div id="msg"></div>
+
+  <script>
+    document.getElementById("ptmForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const grade = document.getElementById("grade").value;
+      const section = document.getElementById("section").value;
+      const name = document.getElementById("name").value;
+
+      if (!grade || !section || !name.trim()) {
+        document.getElementById("msg").textContent = "Please fill all fields.";
+        return;
       }
-      h2 {
-        color: #0ff;
-      }
-      label {
-        display: block;
-        margin-top: 15px;
-      }
-      select, input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        font-size: 16px;
-      }
-      button {
-        background-color: #00ffcc;
-        color: #000;
-        border: none;
-        padding: 10px 20px;
-        margin-top: 20px;
-        font-size: 16px;
-        cursor: pointer;
-      }
-      #msg {
-        margin-top: 20px;
-        font-weight: bold;
-        color: #fff;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>🎫 PTM TOKEN MATRIX</h2>
 
-    <form id="ptmForm">
-      <label for="grade">Grade:</label>
-      <select id="grade" name="grade" required>
-        <option value="">-- Select Grade --</option>
-        ${[...Array(12)].map((_, i) => `<option value="${i + 1}">Grade ${i + 1}</option>`).join('')}
-      </select>
+      const formData = new FormData();
+      formData.append("grade", grade);
+      formData.append("section", section);
+      formData.append("name", name.trim());
 
-      <label for="section">Section:</label>
-      <select id="section" name="section" required>
-        <option value="">-- Select Section --</option>
-        ${["A", "B", "C", "D", "E", "F"].map(s => `<option value="${s}">${s}</option>`).join('')}
-      </select>
+      document.getElementById("msg").textContent = "Please wait...";
 
-      <label for="name">Student Name:</label>
-      <input type="text" id="name" name="name" placeholder="Enter Student Name" required />
-
-      <button type="submit">Generate Token</button>
-    </form>
-
-    <div id="msg"></div>
-
-    <script>
-      document.getElementById("ptmForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const grade = document.getElementById("grade").value;
-        const section = document.getElementById("section").value;
-        const name = document.getElementById("name").value;
-
-        const formData = new FormData();
-        formData.append("grade", grade);
-        formData.append("section", section);
-        formData.append("name", name);
-
-        document.getElementById("msg").innerText = "⏳ Generating your token...";
-
-        fetch("https://script.google.com/macros/s/AKfycbwZW_N1lcyphhvnxHucU5WkFgupD29CRKFWOKfRTV4/dev", {
-          method: "POST",
-          body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById("msg").innerText = "✅ " + data;
-        })
-        .catch(error => {
-          document.getElementById("msg").innerText = "❌ Error: " + error;
-        });
+      fetch("https://script.google.com/macros/s/AKfycbwZW_N1lcyphhvnxHucU5WkFgupD29CRKFWOKfRTV4/dev", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("msg").textContent = data;
+      })
+      .catch(error => {
+        document.getElementById("msg").textContent = "Error: " + error.message;
       });
-    </script>
-  </body>
+    });
+  </script>
+
+</body>
 </html>
