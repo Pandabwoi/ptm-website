@@ -63,6 +63,14 @@
     .footer a:hover {
       text-decoration: underline;
     }
+
+    #tokenDisplay {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      text-align: center;
+      color: #4b0082;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -94,6 +102,8 @@
 
   <button onclick="generateToken()">Generate Token</button>
 
+  <div id="tokenDisplay"></div>
+
   <div class="footer">
     <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdarcTYOIfnDyP-g9kUBJfirCX7B2j-d60lO6Ctc2i75KfIRg/viewform?usp=dialog" target="_blank">Submit Feedback</a></p>
   </div>
@@ -104,17 +114,26 @@
       const grade = document.getElementById("grade").value;
       const section = document.getElementById("section").value;
 
+      const tokenDisplay = document.getElementById("tokenDisplay");
+      tokenDisplay.innerText = "";
+
       if (!name || !grade || !section) {
         alert("Please fill out all fields.");
         return;
       }
 
-      const url = 'https://script.google.com/macros/s/AKfycbxXtH_lYggPOVeUwumHKO7s_W7uvObFctf-Rz4dEoHGW0VEa2ESIIcez8xhbyO3swxB/exec';
+      try {
+        const url = 'https://script.google.com/macros/s/AKfycbxXtH_lYggPOVeUwumHKO7s_W7uvObFctf-Rz4dEoHGW0VEa2ESIIcez8xhbyO3swxB/exec';
+        const response = await fetch(`${url}?name=${encodeURIComponent(name)}&grade=${encodeURIComponent(grade)}&section=${encodeURIComponent(section)}`);
 
-      const response = await fetch(`${url}?name=${encodeURIComponent(name)}&grade=${encodeURIComponent(grade)}&section=${encodeURIComponent(section)}`);
+        if (!response.ok) throw new Error("Request failed.");
 
-      const result = await response.text();
-      alert(result);
+        const result = await response.text();
+        tokenDisplay.innerText = result;
+      } catch (err) {
+        alert("Something went wrong while generating the token. Please try again.");
+        console.error(err);
+      }
     }
   </script>
 </body>
