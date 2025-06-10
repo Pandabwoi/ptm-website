@@ -104,8 +104,8 @@
 
   <div id="tokenDisplay"></div>
 
-  <div class="footer">
-    <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdarcTYOIfnDyP-g9kUBJfirCX7B2j-d60lO6Ctc2i75KfIRg/viewform?usp=dialog" target="_blank">Submit Feedback</a></p>
+  <div class="footer" id="feedbackSection" style="display: none;">
+    <p><a id="feedbackLink" href="#" target="_blank">Submit Feedback</a></p>
   </div>
 
   <script>
@@ -135,6 +135,29 @@
         console.error(err);
       }
     }
+
+    function updateFeedbackLink(grade) {
+      const feedbackSection = document.getElementById("feedbackSection");
+      const feedbackLink = document.getElementById("feedbackLink");
+
+      if (!grade) {
+        feedbackSection.style.display = "none";
+        return;
+      }
+
+      const g = parseInt(grade);
+      if (g >= 1 && g <= 4) {
+        feedbackLink.href = "https://docs.google.com/forms/d/e/1FAIpQLSecdKduHBkU6IREIkBZs_42rutRNavSaxnWC61naSYa7TdG_Q/viewform";
+      } else {
+        feedbackLink.href = "https://docs.google.com/forms/d/e/1FAIpQLSdarcTYOIfnDyP-g9kUBJfirCX7B2j-d60lO6Ctc2i75KfIRg/viewform?usp=dialog";
+      }
+
+      feedbackSection.style.display = "block";
+    }
+
+    document.getElementById("grade").addEventListener("change", function () {
+      updateFeedbackLink(this.value);
+    });
   </script>
 </body>
 </html>
