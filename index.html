@@ -1,77 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PTM Token Generator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PTM OpenTracker - PTM Token</title>
   <style>
-    body { font-family: Arial; max-width: 400px; margin: 40px auto; padding: 20px; background: #f0f0f0; }
-    label { display: block; margin-top: 15px; font-weight: bold; }
-    select, input, button { width: 100%; padding: 8px; margin-top: 5px; font-size: 14px; }
-    button { margin-top: 20px; background: #007bff; color: white; border: none; cursor: pointer; }
-    button:hover { background: #0056b3; }
-    #msg { margin-top: 20px; font-weight: bold; text-align: center; }
+    body {
+      background-color: #f5f3ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #2c2c54;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4b0082;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 1rem 0 0.5rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #4b0082;
+      color: white;
+      border: none;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #36006b;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #4b0082;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
+  <h1>KTM OpenTracker</h1>
 
-  <h2>PTM Token Generator</h2>
+  <label for="studentName">Student Name:</label>
+  <input type="text" id="studentName" placeholder="Enter student's full name" required />
 
-  <form id="ptmForm">
-    <label for="grade">Grade:</label>
-    <select id="grade" name="grade" required>
-      <option value="">Select Grade</option>
-      <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-      <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
-      <option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
-    </select>
+  <label for="grade">Grade:</label>
+  <select id="grade">
+    <option value="">-- Select Grade --</option>
+    <script>
+      for (let i = 1; i <= 12; i++) {
+        document.write(`<option value="${i}">${i}</option>`);
+      }
+    </script>
+  </select>
 
-    <label for="section">Section:</label>
-    <select id="section" name="section" required>
-      <option value="">Select Section</option>
-      <option value="A">A</option><option value="B">B</option><option value="C">C</option>
-      <option value="D">D</option><option value="E">E</option><option value="F">F</option>
-    </select>
+  <label for="section">Section:</label>
+  <select id="section">
+    <option value="">-- Select Section --</option>
+    <script>
+      const sections = ['A', 'B', 'C', 'D', 'E', 'F'];
+      sections.forEach(section => {
+        document.write(`<option value="${section}">${section}</option>`);
+      });
+    </script>
+  </select>
 
-    <label for="name">Student Name:</label>
-    <input type="text" id="name" name="name" placeholder="Enter Student Name" required />
+  <button onclick="generateToken()">Generate Token</button>
 
-    <button type="submit">Generate Token</button>
-  </form>
-
-  <div id="msg"></div>
+  <div class="footer">
+    <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdarcTYOIfnDyP-g9kUBJfirCX7B2j-d60lO6Ctc2i75KfIRg/viewform?usp=dialog" target="_blank">Submit Feedback</a></p>
+  </div>
 
   <script>
-    document.getElementById("ptmForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-
+    async function generateToken() {
+      const name = document.getElementById("studentName").value.trim();
       const grade = document.getElementById("grade").value;
       const section = document.getElementById("section").value;
-      const name = document.getElementById("name").value.trim();
 
-      if (!grade || !section || !name) {
-        document.getElementById("msg").textContent = "Please fill all fields.";
+      if (!name || !grade || !section) {
+        alert("Please fill out all fields.");
         return;
       }
 
-      const formData = new FormData();
-      formData.append("grade", grade);
-      formData.append("section", section);
-      formData.append("name", name);
+      const url = 'https://script.google.com/macros/s/AKfycbxXtH_lYggPOVeUwumHKO7s_W7uvObFctf-Rz4dEoHGW0VEa2ESIIcez8xhbyO3swxB/exec';
 
-      document.getElementById("msg").textContent = "Processing...";
+      const response = await fetch(`${url}?name=${encodeURIComponent(name)}&grade=${encodeURIComponent(grade)}&section=${encodeURIComponent(section)}`);
 
-      fetch(https://script.google.com/macros/s/AKfycbwZW_N1lcyphhvnxHucU5WkFgupD29CRKFWOKfRTV4/dev", {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.text())
-      .then(text => {
-        document.getElementById("msg").textContent = text;
-      })
-      .catch(err => {
-        document.getElementById("msg").textContent = "Error: " + err.message;
-      });
-    });
+      const result = await response.text();
+      alert(result);
+    }
   </script>
-
 </body>
 </html>
