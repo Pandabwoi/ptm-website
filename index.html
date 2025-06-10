@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PTM OpenTracker - PTM Token</title>
+  <title>Your PTM Companion : Token + Feedback Portal</title>
   <style>
     body {
       background-color: #f5f3ff;
@@ -12,6 +12,13 @@
       padding: 2rem;
       max-width: 600px;
       margin: auto;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 1.5rem;
+      max-width: 200px;
+      height: auto;
     }
 
     h1 {
@@ -55,13 +62,19 @@
     }
 
     .footer a {
+      display: inline-block;
+      margin: 0.5rem 0;
       color: #4b0082;
       font-weight: bold;
       text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid #4b0082;
+      border-radius: 5px;
     }
 
     .footer a:hover {
-      text-decoration: underline;
+      background-color: #4b0082;
+      color: white;
     }
 
     #tokenDisplay {
@@ -74,6 +87,10 @@
   </style>
 </head>
 <body>
+
+  <!-- Logo Image -->
+  <img src="2023-9-26 - 17-0-49-686_podar-initiatives-removebg-preview (1).png" alt="Podar Logo" class="logo" />
+
   <h1>PTM OpenTracker</h1>
 
   <label for="studentName">Student Name:</label>
@@ -104,8 +121,9 @@
 
   <div id="tokenDisplay"></div>
 
-  <div class="footer" id="feedbackSection" style="display: none;">
-    <p><a id="feedbackLink" href="#" target="_blank">Submit Feedback</a></p>
+  <div class="footer">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSecdKduHBkU6IREIkBZs_42rutRNavSaxnWC61naSYa7TdG_Q/viewform" target="_blank">Submit Feedback (Grade 1 to 4)</a><br>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdarcTYOIfnDyP-g9kUBJfirCX7B2j-d60lO6Ctc2i75KfIRg/viewform?usp=dialog" target="_blank">Submit Feedback (Grade 5 to 12)</a>
   </div>
 
   <script>
@@ -135,29 +153,6 @@
         console.error(err);
       }
     }
-
-    function updateFeedbackLink(grade) {
-      const feedbackSection = document.getElementById("feedbackSection");
-      const feedbackLink = document.getElementById("feedbackLink");
-
-      if (!grade) {
-        feedbackSection.style.display = "none";
-        return;
-      }
-
-      const g = parseInt(grade);
-      if (g >= 1 && g <= 4) {
-        feedbackLink.href = "https://docs.google.com/forms/d/e/1FAIpQLSecdKduHBkU6IREIkBZs_42rutRNavSaxnWC61naSYa7TdG_Q/viewform";
-      } else {
-        feedbackLink.href = "https://docs.google.com/forms/d/e/1FAIpQLSdarcTYOIfnDyP-g9kUBJfirCX7B2j-d60lO6Ctc2i75KfIRg/viewform?usp=dialog";
-      }
-
-      feedbackSection.style.display = "block";
-    }
-
-    document.getElementById("grade").addEventListener("change", function () {
-      updateFeedbackLink(this.value);
-    });
   </script>
 </body>
 </html>
