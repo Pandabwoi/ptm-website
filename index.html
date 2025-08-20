@@ -6,151 +6,220 @@
   <title>Your PTM Companion : Token + Feedback Portal</title>
   <style>
     body {
-      background-color: #f5f3ff;
+      margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f6fc;
       color: #2c2c54;
+    }
+
+    /* Fullscreen Intro */
+    #intro {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 1s ease;
+    }
+
+    #intro img {
+      width: 150px;
+      opacity: 0;
+      animation: fadeInScale 2s forwards;
+    }
+
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.5); }
+      60% { opacity: 1; transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    #mainContent {
+      display: none;
       padding: 2rem;
       max-width: 600px;
       margin: auto;
+      box-shadow: 0 0 20px rgba(132, 61, 141, 0.2);
+      border-radius: 12px;
+      background: #f9f6fc;
     }
 
-    .logo {
-      display: block;
-      margin: 0 auto 1.5rem;
-      max-width: 200px;
-      height: auto;
-    }
+    .logo { display: block; margin: 0 auto 1.5rem; max-width: 200px; }
+    h1 { text-align: center; color: #843d8d; margin-bottom: 1.5rem; }
 
-    h1 {
-      text-align: center;
-      color: #4b0082;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin: 1rem 0 0.5rem;
-    }
-
+    label { font-weight: bold; display: block; margin: 1rem 0 0.5rem; color: #843d8d; }
     input, select {
-      width: 100%;
-      padding: 0.5rem;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      width: 100%; padding: 0.6rem; font-size: 1rem;
+      margin-bottom: 1rem; border: 1px solid #ccc;
+      border-radius: 6px; transition: border 0.3s;
     }
+    input:focus, select:focus { border-color: #843d8d; outline: none; }
 
     button {
-      background-color: #4b0082;
-      color: white;
-      border: none;
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
+      background-color: #843d8d; color: white; border: none;
+      padding: 0.75rem; font-size: 1rem; border-radius: 6px;
+      cursor: pointer; width: 100%;
+      transition: background-color 0.3s ease;
     }
+    button:hover { background-color: #6b2d71; }
 
-    button:hover {
-      background-color: #36006b;
-    }
-
-    .footer {
-      margin-top: 2rem;
-      text-align: center;
-    }
-
+    .footer { margin-top: 2rem; text-align: center; }
     .footer a {
-      display: inline-block;
-      margin: 0.5rem 0;
-      color: #4b0082;
-      font-weight: bold;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border: 1px solid #4b0082;
-      border-radius: 5px;
+      display: inline-block; margin: 0.5rem 0; color: #843d8d;
+      font-weight: bold; text-decoration: none; padding: 0.5rem 1rem;
+      border: 1px solid #843d8d; border-radius: 6px;
+      transition: all 0.3s ease;
     }
-
-    .footer a:hover {
-      background-color: #4b0082;
-      color: white;
-    }
+    .footer a:hover { background-color: #843d8d; color: white; }
 
     #tokenDisplay {
-      margin-top: 1.5rem;
-      font-size: 1.2rem;
-      text-align: center;
-      color: #4b0082;
-      font-weight: bold;
+      margin-top: 1.5rem; font-size: 1.2rem;
+      text-align: center; color: #843d8d; font-weight: bold;
+    }
+    #loading {
+      display: none; text-align: center; color: #843d8d;
+      font-weight: bold; margin-top: 1rem;
+    }
+    #footerCredit {
+      display: none; text-align: center; font-size: 0.8rem;
+      color: #000; margin-top: 3rem; font-style: italic;
+      opacity: 0; transition: opacity 1s ease;
     }
   </style>
 </head>
 <body>
+  <!-- Intro Screen -->
+  <div id="intro">
+    <img src="45.png" alt="School Logo">
+    <audio id="introMusic" src="Logo.mp3"></audio>
+  </div>
 
-  <!-- Logo Image -->
-  <img src="2023-9-26 - 17-0-49-686_podar-initiatives-removebg-preview (1).png" alt="Podar Logo" class="logo" />
+  <!-- Main Content -->
+  <div id="mainContent">
+    <img src="45.png" alt="Podar" class="logo"/>
+    <h1>PTM : Token And Feedback Portal</h1>
 
-  <h1>PTM OpenTracker</h1>
+    <!-- Instructions -->
+    <div style="background:#f0e6f7; border-left:5px solid #843d8d; padding:1rem 1.5rem; margin-bottom:2rem; border-radius:8px;">
+      <h2 style="color:#843d8d; font-size:1.1rem;">How to Use This Portal?</h2>
+      <ol style="padding-left:1.2rem; color:#333; font-size:0.95rem;">
+        <li>Scan the QR code to open this page.</li>
+        <li>Enter your <strong>Child’s full name</strong>.</li>
+        <li>Select the <strong>Grade</strong> and <strong>Section</strong>.</li>
+        <li><em>(Optional)</em> Choose a specific venue if required.</li>
+        <li>Click <strong>Generate Token</strong>.</li>
+        <li>Show the token number to the <strong>Teacher</strong>.</li>
+        <li>After the meet, click <strong>Feedback</strong> below.</li>
+      </ol>
+    </div>
 
-  <label for="studentName">Student Name:</label>
-  <input type="text" id="studentName" placeholder="Enter student's full name" required />
+    <!-- Inputs -->
+    <label for="studentName">Student Name:</label>
+    <input type="text" id="studentName" placeholder="Enter student's full name" required />
 
-  <label for="grade">Grade:</label>
-  <select id="grade">
-    <option value="">-- Select Grade --</option>
-    <script>
-      for (let i = 1; i <= 12; i++) {
-        document.write(`<option value="${i}">${i}</option>`);
-      }
-    </script>
-  </select>
+    <label for="grade">Grade:</label>
+    <select id="grade">
+      <option value="">-- Select Grade --</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+    </select>
 
-  <label for="section">Section:</label>
-  <select id="section">
-    <option value="">-- Select Section --</option>
-    <script>
-      const sections = ['A', 'B', 'C', 'D', 'E', 'F'];
-      sections.forEach(section => {
-        document.write(`<option value="${section}">${section}</option>`);
-      });
-    </script>
-  </select>
+    <label for="section">Section:</label>
+    <select id="section">
+      <option value="">-- Select Section --</option>
+      <option>A</option><option>B</option><option>C</option>
+      <option>D</option><option>E</option><option>F</option>
+    </select>
 
-  <button onclick="generateToken()">Generate Token</button>
+    <label for="venue">Optional Venue:</label>
+    <select id="venue">
+      <option value="">-- Select Venue (Optional) --</option>
+      <option value="Science Lab">Science Lab</option>
+      <option value="Computer Lab">Computer Lab</option>
+      <option value="Library">Library</option>
+    </select>
 
-  <div id="tokenDisplay"></div>
+    <div id="loading">⏳ Please wait... Generating your token...</div>
+    <button onclick="generateToken()">Generate Token</button>
+    <div id="tokenDisplay"></div>
 
-  <div class="footer">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSecdKduHBkU6IREIkBZs_42rutRNavSaxnWC61naSYa7TdG_Q/viewform" target="_blank">Submit Feedback (Grade 1 to 4)</a><br>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdarcTYOIfnDyP-g9kUBJfirCX7B2j-d60lO6Ctc2i75KfIRg/viewform?usp=dialog" target="_blank">Submit Feedback (Grade 5 to 12)</a>
+    <div class="footer">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdsWcJy3DbZFtVhQMjecTy4CaMZtLfWsftE3kh0pQtVeQs7jg/viewform?usp=dialog">Submit Feedback (Grade 1–4)</a><br>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScI_xbGYv761MxTXXMe5VOacACCLqxgal2Wa4amEnaXFm3gJA/viewform">Submit Feedback (Grade 5–12)</a>
+    </div>
+
+    <div id="footerCredit">
+      Built by-<br>Advik Panda<br>Grade XI-B<br>PIS CBSE Nerul
+    </div>
   </div>
 
   <script>
+    // Intro Screen Handler
+    window.addEventListener("load", () => {
+      const intro = document.getElementById("intro");
+      const main = document.getElementById("mainContent");
+      const music = document.getElementById("introMusic");
+
+      music.play().catch(() => console.log("Autoplay blocked, will play on interaction."));
+
+      setTimeout(() => {
+        intro.style.opacity = 0;
+        setTimeout(() => {
+          intro.style.display = "none";
+          main.style.display = "block";
+        }, 1000);
+      }, 2500);
+    });
+
+    // Token Generator
     async function generateToken() {
       const name = document.getElementById("studentName").value.trim();
       const grade = document.getElementById("grade").value;
       const section = document.getElementById("section").value;
-
+      const venue = document.getElementById("venue").value;
       const tokenDisplay = document.getElementById("tokenDisplay");
+      const loadingMessage = document.getElementById("loading");
+      const footer = document.getElementById("footerCredit");
+
       tokenDisplay.innerText = "";
+      loadingMessage.style.display = "block";
 
       if (!name || !grade || !section) {
         alert("Please fill out all fields.");
+        loadingMessage.style.display = "none";
         return;
       }
 
       try {
-        const url = 'https://script.google.com/macros/s/AKfycbxXtH_lYggPOVeUwumHKO7s_W7uvObFctf-Rz4dEoHGW0VEa2ESIIcez8xhbyO3swxB/exec';
-        const response = await fetch(`${url}?name=${encodeURIComponent(name)}&grade=${encodeURIComponent(grade)}&section=${encodeURIComponent(section)}`);
-
+        const url = "https://script.google.com/macros/s/AKfycbxXtH_lYggPOVeUwumHKO7s_W7uvObFctf-Rz4dEoHGW0VEa2ESIIcez8xhbyO3swxB/exec";
+        const response = await fetch(`${url}?name=${encodeURIComponent(name)}&grade=${encodeURIComponent(grade)}&section=${encodeURIComponent(section)}&venue=${encodeURIComponent(venue)}`);
         if (!response.ok) throw new Error("Request failed.");
 
         const result = await response.text();
         tokenDisplay.innerText = result;
+
+        footer.style.display = "block";
+        setTimeout(() => footer.style.opacity = 1, 10);
+
       } catch (err) {
         alert("Something went wrong while generating the token. Please try again.");
         console.error(err);
+      } finally {
+        loadingMessage.style.display = "none";
       }
     }
   </script>
